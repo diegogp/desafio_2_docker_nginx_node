@@ -5,7 +5,8 @@ services:
       context: node
     container_name: app
     #Dockerize verificará se os containers dependencias estão prontos
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh 
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 60s docker-entrypoint.sh 
+    command: node index.js
     networks:
       - node-network
     volumes:
@@ -27,6 +28,7 @@ services:
     environment:
       - MYSQL_DATABASE=nodedb #cria o bd automaticamente
       - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
     networks:
       - node-network
 

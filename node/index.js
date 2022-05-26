@@ -11,12 +11,25 @@ const config = {
 const mysql = require('mysql')
 const connection = mysql.createConnection(config)
 
-const sql = `INSERT INTO people(name) values('Diego')`
-connection.query(sql)
+const sql_insert = `INSERT INTO people(name) values('Diego')`
+connection.query(sql_insert)
+//connection.end()
+
+const sql_query = `SELECT * FROM people;`
+let people = []
+connection.query(sql_query, (err, result, fields) => {
+    if (err) throw err;
+    people = result;
+})
 connection.end()
 
 app.get('/', (req, res) => {
-    res.send('<h1>Hello Fullcycle!</h1>')
+    let result = '<table>';
+    people.forEach(function(person) {
+        result += "<tr><td>" + person.id + "</td><td>" + person.name + "</td></tr>";
+    })
+    result += '</table>';
+    res.send("<h1>Full Cycle Rocks!</h1>\b" + result);
 })
 
 app.listen(port, ()=> {
