@@ -4,6 +4,7 @@ services:
     build:
       context: node
     container_name: app
+    hostname: app
     #Dockerize verificará se os containers dependencias estão prontos
     entrypoint: dockerize -wait tcp://db:3306 -timeout 60s docker-entrypoint.sh 
     command: node index.js
@@ -16,7 +17,18 @@ services:
       - "3000:3000"
     depends_on:
       - db
-
+  nginx:
+    build:
+      context: nginx
+    container_name: nginx
+    hostname: nginx
+    networks:
+      - node-network
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+    
   db:
     image: mysql:5.7
     command: --innodb-use-native-aio=0
