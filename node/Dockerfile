@@ -9,8 +9,8 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-#JOGAR TUDO DO WORKSPACE PARA O WORKDIR
-COPY . .
+COPY package*.json ./ 
+COPY index.js ./
 
 EXPOSE 3000
 
